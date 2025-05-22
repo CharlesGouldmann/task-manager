@@ -1,0 +1,17 @@
+<dialog #modalDialog class="absolute inset-0 z-50 min-w-[50vw] min-h-[50vh] [open]:flex items-center justify-center m-auto bg-neutral-100 p-4 rounded-sm" [attr.open]="isOpen ? '' : null">
+	<div class="flex justify-end p-4">
+		<button class="button --type-link --type-icon --icon-xmark" (click)="closeModal()">
+			<span class="sr-only">Close</span>
+			<span class="sr-only">×</span>
+		</button>
+	</div>
+
+	<div class="p-4">
+		<div class="mb-4">
+			<h2 class="modal__title">{{ title }}</h2>
+		</div>
+
+		
+		<ng-content></ng-content>
+	</div>
+</dialog>

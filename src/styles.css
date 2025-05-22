@@ -1,1 +1,185 @@
-/* You can add global styles to this file, and also import other style files */
+@import "tailwindcss";
+@theme {
+	--font-family: "Nunito", sans-serif;
+	--font-family-serif: "Noto Serif", serif;
+
+	--line-height-base: 1.5;
+
+	--link-color: oklch(70.7% 0.165 254.624);
+	--link-hover-color: oklch(62.3% 0.214 259.815);
+	--link-color-active: oklch(48.8% 0.243 264.376);
+
+	--color-background: #FFFFFF;
+	--color-surface: oklch(0.97 0 0); /* neutral 1000 */
+	--color-primary: oklch(70.7% 0.165 254.624);
+	--color-secondary: #0000EE;
+
+	--color-on-primary: #FFFFFF;
+	--color-on-secondary: #FFFFFF;
+	--color-on-background: #000000;
+	--color-on-surface: #000000;
+}
+
+@layer base {
+	body {
+		@apply bg-gray-50 text-gray-900 antialiased;
+	}
+
+	h1, h2, h3, h4, h5, h6 {
+		@apply font-serif font-normal text-gray-900;
+	}
+
+	h1 {
+		@apply text-4xl md:text-5xl;
+	}
+
+	h2 {
+		@apply text-3xl md:text-4xl;
+	}
+
+	h3 {
+		@apply text-2xl md:text-3xl;
+	}
+
+
+	select {
+		cursor: pointer;
+	}
+}
+
+@layer components {
+	/* Button */
+	.button {
+		@apply 
+		inline-flex 
+		items-center 
+		justify-center 
+		rounded-md 
+		px-4 
+		py-2 
+		text-sm 
+		focus-visible:outline-none 
+		focus-visible:ring-2 
+		focus-visible:ring-offset-2 
+		disabled:pointer-events-none 
+		disabled:opacity-50;
+
+		background-color: var(--button-background, transparent);
+		color: var(--button-color, currentColor);
+		font-weight: 600;
+		cursor: pointer;
+		transition: background-color 0.1s ease-in-out, scale 0.1s ease-in-out;
+		
+
+		&:hover {
+			--button-background: currentColor;
+			--button-color: white;
+			scale: 1.02;
+		}
+
+		&:active {
+			--button-background: currentColor;
+			--button-color: white;
+			scale: 0.98;
+		}
+
+
+
+		/* Color modifiers */
+		&.--color-primary {
+			--button-background: var(--color-primary);
+			--button-color: var(--color-on-primary);
+		}
+	
+		&.--color-secondary {
+			--button-background: var(--color-secondary);
+			--button-color: var(--color-on-secondary);
+		}
+
+		/* Type modifiers */
+		&.--type-icon {
+			@apply gap-1;
+
+			&::before {
+				content: '';
+				display: inline-block;
+				height: calc(1em * var(--line-height-base));
+				width: calc(1em * var(--line-height-base));
+				mask-image: var(--icon, url('/assets/icons/font-question.svg'));
+				mask-size: contain;
+				mask-repeat: no-repeat;
+				mask-position: center;
+
+				background-color: currentColor;
+			}
+
+			&.--icon-xmark {
+				--icon: url('/assets/icons/xmark.svg');
+			}
+
+			&.--icon-plus {
+				--icon: url('/assets/icons/plus.svg');
+			}
+		}
+
+		&.--type-ghost {
+			border: 1px solid currentColor;
+		}
+
+		&.--type-link {
+			--button-background: transparent;
+			--button-color: var(--button-color, var(--link-color));
+
+			padding: 0;
+			text-decoration: underline;
+
+			&:hover {
+				--button-color: var(--button-color, var(--link-hover-color));
+			}
+		}
+	}
+
+
+
+	/* Form elements */
+	.form-input {
+		@apply block w-full rounded-sm border border-gray-300 px-3 py-2 text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 placeholder:text-slate-500;
+	}
+
+	.form-label {
+		@apply block text-sm font-medium text-gray-700 mb-1;
+	}
+
+	.form-error {
+		@apply mt-1 text-sm text-red-600;
+	}
+
+
+	/* Animations */
+	
+	.animation-fade-in-up {
+		animation: fade-in-up 0.5s ease-in-out;
+	}
+
+	.animation-fade-out {
+		animation: fade-out 0.5s ease-in-out;
+	}
+
+	@keyframes fade-in-up {
+		from {
+			opacity: 0;
+			transform: translateY(100%);
+		}
+	}
+
+	@keyframes fade-out {
+		to {
+			opacity: 0;
+			transform: translateY(100%);
+		}
+	}
+	
+
+
+}
+

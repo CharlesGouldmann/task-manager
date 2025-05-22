@@ -1,0 +1,20 @@
+@if (toasts().length > 0) {
+
+	<div class="fixed bottom-0 right-0 left-0 flex flex-col justify-center items-center m-4 space-y-4">
+		@for (toast of toasts(); track toast) {
+
+			<aside 
+				class="inline-flex items-center justify-center gap-2 p-4 rounded-sm text-white" 
+				[ngClass]="{
+				'bg-emerald-400': toast.type === toastTypes.SUCCESS,
+				'bg-red-400': toast.type === toastTypes.ERROR,
+				'bg-amber-400': toast.type === toastTypes.WARNING,
+				'bg-blue-400': toast.type === toastTypes.INFO,
+				'animation-fade-in-up': toast.activeAnimation,
+				'animation-fade-out': !toast.activeAnimation
+				}">
+				{{ toast.message }}
+			</aside>
+		}
+	</div>
+}

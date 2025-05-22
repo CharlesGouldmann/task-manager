@@ -1,0 +1,35 @@
+<form [formGroup]="taskForm" (ngSubmit)="addTask()">
+	<div class="mb-4">
+		<label for="name">Name</label>
+		<input 
+			id="name" 
+			class="form-input"
+			formControlName="name" 
+			type="text" 
+			placeholder="Task name"
+		/>
+		<div *ngIf="taskForm.get('name')?.invalid && taskForm.get('name')?.touched" class="error-message">
+			<span *ngIf="taskForm.get('name')?.errors?.['required']">Name is required</span>
+			<span *ngIf="taskForm.get('name')?.errors?.['minlength']">Name must be at least 3 characters</span>
+		</div>
+	</div>
+
+	<div class="mb-4">
+		<label for="description">Description</label>
+		<textarea 
+			id="description" 
+			class="form-input"
+			formControlName="description" 
+			placeholder="Task description" 
+			rows="3"
+		></textarea>
+		<div *ngIf="taskForm.get('description')?.invalid && taskForm.get('description')?.touched" class="error-message">
+			<span *ngIf="taskForm.get('description')?.errors?.['required']">Description is required</span>
+		</div>
+	</div>
+	
+	<!-- form actions -->
+	<div class="flex gap-2 justify-end">
+		<button type="button" class="button --color-primary" (click)="addTask()" [disabled]="taskForm.invalid">Add Task</button>
+	</div>
+</form>

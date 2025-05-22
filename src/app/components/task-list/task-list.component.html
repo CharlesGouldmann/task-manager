@@ -1,0 +1,71 @@
+<article class="py-6">
+	<header class="mb-6">
+		<h1 class="text-4xl font-bold">Tasks</h1>
+	</header>
+	
+	
+	<!-- Search input for filtering tasks and add task button -->
+	<section class="mb-8">
+		<div class="flex gap-4">
+			<form class="grow">
+				<input 
+					type="text" 
+					placeholder="Search tasks by name" 
+					class="form-input"
+					[ngModel]="searchTerm()"
+					(ngModelChange)="searchTerm.set($event)"
+					name="searchTerm"
+				/>
+			</form>
+
+			<button class="button --color-primary --type-icon --icon-plus" (click)="openModal()">New</button>
+		</div>
+	</section>
+
+	<!-- Task list -->
+	<section>
+
+		<div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+			@for (status of statusOptions; track status) {
+				<div class="mb-4">
+					<h2 class="text-base font-bold uppercase font-sans p-4 mb-4 bg-slate-200 text-slate-700 rounded-sm">
+						{{ status }} 
+						<span class="text-sm text-gray-600 bg-slate-300 rounded-sm px-2 py-1">
+							{{ getFilteredTasksByStatus(status).length }}
+							@if (searchTerm().length > 0) {
+								/ {{ getAllTasksByStatus(status).length }}
+							}
+						</span>
+					</h2>
+
+					<div class="flex flex-col gap-6 bg-slate-200 p-4 rounded-sm">
+						@defer (on immediate) {
+							@if (getFilteredTasksByStatus(status).length > 0) {
+								@for (task of getFilteredTasksByStatus(status); track task.id) {
+									<app-task [task]="task"></app-task>
+								}
+							}
+							@else {
+								@if (searchTerm().length > 0) {
+									<p>No tasks found.</p>
+								}
+							}
+						}
+						@placeholder (minimum 0.5s) {
+							loading tasks...
+						}
+					</div>
+				</div>
+			}
+		</div>
+	</section>
+	
+	<!-- Modal -->
+	<app-modal 
+		[isOpen]="isModalOpen()" 
+		[title]="'Add New Task'" 
+		(close)="closeModal()"
+	>
+		<app-task-form (taskAdded)="closeModal()"></app-task-form>
+	</app-modal>
+</article>
