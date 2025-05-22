@@ -10,8 +10,14 @@ import { CommonModule } from '@angular/common';
 })
 export class ModalComponent implements OnChanges, AfterViewInit {
 	@Input() title: string = '';
+	@Input() message: string = '';
 	@Input() isOpen: boolean = false;
+	@Input() showActions: boolean = false;
+	@Input() confirmLabel: string = 'Confirm';
+	@Input() cancelLabel: string = 'Cancel';
 	@Output() close = new EventEmitter<void>();
+	@Output() confirm = new EventEmitter<void>();
+	@Output() cancel = new EventEmitter<void>();
 	@ViewChild('modalDialog') modalDialog!: ElementRef<HTMLDialogElement>;
 
 	// Handle Escape key
@@ -62,5 +68,15 @@ export class ModalComponent implements OnChanges, AfterViewInit {
 			this.modalDialog.nativeElement.close();
 			this.close.emit();
 		}
+	}
+
+	onConfirm() {
+		this.confirm.emit();
+		this.closeModal();
+	}
+
+	onCancel() {
+		this.cancel.emit();
+		this.closeModal();
 	}
 } 

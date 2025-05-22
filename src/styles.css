@@ -11,8 +11,8 @@
 
 	--color-background: #FFFFFF;
 	--color-surface: oklch(0.97 0 0); /* neutral 1000 */
-	--color-primary: oklch(70.7% 0.165 254.624);
-	--color-secondary: #0000EE;
+	--color-primary: oklch(62.3% 0.214 259.815);
+	--color-secondary: oklch(55.8% 0.288 302.321);
 
 	--color-on-primary: #FFFFFF;
 	--color-on-secondary: #FFFFFF;

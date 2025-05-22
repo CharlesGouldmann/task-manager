@@ -2,7 +2,7 @@ import { Component, Input, OnInit, inject, signal } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { Task, TaskStatus } from '../../interfaces/task';
 import { TaskService } from '../../services/task.service';
-
+import { ModalService } from '../../services/modal.service';
 
 @Component({
   selector: 'app-task',
@@ -15,6 +15,7 @@ export class TaskComponent implements OnInit {
   @Input() task!: Task;
 
   taskService = inject(TaskService);
+  modalService = inject(ModalService);
   status = signal<TaskStatus>(TaskStatus.TODO);
   statusOptions = Object.values(TaskStatus);
 
@@ -33,7 +34,18 @@ export class TaskComponent implements OnInit {
     this.taskService.updateTask(this.task.id, status);
   }
 
-  deleteTask() {
-    this.taskService.deleteTask(this.task.id);
+  async deleteTask() {
+    const confirmed = await this.modalService.confirm({
+      title: 'Delete Task',
+      message: 'Are you sure you want to delete this task? This action cannot be undone.',
+      confirmLabel: 'Confirm',
+      cancelLabel: 'Cancel',
+      showActions: true
+    })
+
+    console.log('confirmed', confirmed)
+    if (confirmed) {
+      this.taskService.deleteTask(this.task.id)
+    }
   }
 }
