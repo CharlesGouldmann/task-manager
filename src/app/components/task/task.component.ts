@@ -43,7 +43,6 @@ export class TaskComponent implements OnInit {
       showActions: true
     })
 
-    console.log('confirmed', confirmed)
     if (confirmed) {
       this.taskService.deleteTask(this.task.id)
     }
