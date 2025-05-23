@@ -1,4 +1,15 @@
-<dialog #modalDialog class="absolute inset-0 z-50 min-w-[50vw] min-h-[30vh] [open]:flex items-center justify-center m-auto bg-neutral-100 p-4 rounded-sm" [attr.open]="isOpen()">
+@if(isOpen()) {
+	<div 
+		class="fixed inset-0 bg-black/15 z-40" 
+		(click)="closeModal()"
+	></div>
+}
+
+<dialog 
+	#modalDialog 
+	class="absolute inset-0 z-50 min-w-[50vw] min-h-[30vh] [open]:flex items-center justify-center m-auto bg-neutral-100 p-4 rounded-sm backdrop:bg-black/15" 
+	[attr.open]="isOpen() ? '' : null"
+>
 	<div class="flex justify-end p-4">
 		<button class="button --type-link --type-icon --icon-xmark" (click)="closeModal()">
 			<span class="sr-only">Close</span>
