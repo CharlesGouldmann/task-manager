@@ -40,13 +40,13 @@
 
 					<div class="flex flex-col gap-6 bg-slate-200 p-4 rounded-sm">
 						@defer (on immediate) {
-							@if (getFilteredTasksByStatus(status).length > 0) {
+							@if (getFilteredTasksByStatus(status).length) {
 								@for (task of getFilteredTasksByStatus(status); track task.id) {
 									<app-task [task]="task"></app-task>
 								}
 							}
 							@else {
-								@if (searchTerm().length > 0) {
+								@if (searchTerm().length) {
 									<p>No tasks found.</p>
 								}
 							}
