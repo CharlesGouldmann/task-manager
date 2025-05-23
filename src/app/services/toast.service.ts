@@ -9,8 +9,8 @@ export class ToastService {
 	private defaultDuration = 3000;
 	private defaultAnimationDuration = 500;
 	
-	private privateToasts = signal<Toast[]>([]);
-	public toasts = computed(() => this.privateToasts());
+	private toastsState = signal<Toast[]>([]);
+	public toasts = computed(() => this.toastsState());
 
 
 	
@@ -28,7 +28,7 @@ export class ToastService {
 			duration,
 			activeAnimation: true
 		};
-		this.privateToasts.update(toasts => [...toasts, toast]);
+		this.toastsState.update(toasts => [...toasts, toast]);
 
 		setTimeout(() => {
 			this.remove(toast);
@@ -36,7 +36,7 @@ export class ToastService {
 
 		// Remove the animation before the toast is removed so we can animate it out
 		setTimeout(() => {
-			this.privateToasts.update(toasts => toasts.map(t => 
+			this.toastsState.update(toasts => toasts.map(t => 
 				t.id === toast.id ? { ...toast, activeAnimation: false } : t
 			));
 		}, duration - this.defaultAnimationDuration);
@@ -44,6 +44,6 @@ export class ToastService {
 
 
 	private remove(toast: Toast) {
-		this.privateToasts.update(toasts => toasts.filter(t => t.id !== toast.id));
+		this.toastsState.update(toasts => toasts.filter(t => t.id !== toast.id));
 	}
 }

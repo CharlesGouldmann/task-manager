@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ToastService } from '../../services/toast.service';
 import { ToastType } from '../../interfaces/toast';
@@ -13,6 +13,6 @@ import { ToastType } from '../../interfaces/toast';
 export class ToastComponent {
 	private toastService = inject(ToastService);
 
-	toasts = this.toastService.toasts;
+	toasts = computed(() => this.toastService.toasts());
 	toastTypes = ToastType;
 }

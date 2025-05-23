@@ -25,13 +25,12 @@ export class ModalService {
 				environmentInjector: this.environmentInjector
 			})
 
-
 			// Set inputs of the modal component
-			modalComponent.instance.title = options.title
-			modalComponent.instance.message = options.message
-			modalComponent.instance.showActions = options.showActions ?? true
-			modalComponent.instance.confirmLabel = options.confirmLabel || 'Confirm'
-			modalComponent.instance.cancelLabel = options.cancelLabel || 'Cancel'
+			modalComponent.setInput('title', options.title)
+			modalComponent.setInput('message', options.message)
+			modalComponent.setInput('showActions', options.showActions ?? true)
+			modalComponent.setInput('confirmLabel', options.confirmLabel || 'Confirm')
+			modalComponent.setInput('cancelLabel', options.cancelLabel || 'Cancel')
 
 
 			// Handle events
@@ -55,7 +54,7 @@ export class ModalService {
 			this.appRef.attachView(modalComponent.hostView)
 			this.modalRef = modalComponent
 
-			modalComponent.instance.isOpen = true
+			modalComponent.setInput('isOpen', true)
 		})
 	}
 

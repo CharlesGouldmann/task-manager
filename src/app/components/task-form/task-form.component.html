@@ -8,10 +8,16 @@
 			type="text" 
 			placeholder="Task name"
 		/>
-		<div *ngIf="taskForm.get('name')?.invalid && taskForm.get('name')?.touched" class="error-message">
-			<span *ngIf="taskForm.get('name')?.errors?.['required']">Name is required</span>
-			<span *ngIf="taskForm.get('name')?.errors?.['minlength']">Name must be at least 3 characters</span>
-		</div>
+		@if(taskForm.get('name')?.invalid && taskForm.get('name')?.touched) {
+			<div class="error-message">
+				@if(taskForm.get('name')?.errors?.['required']) {
+					<span>Name is required</span>
+				}
+				@if(taskForm.get('name')?.errors?.['minlength']) {
+					<span>Name must be at least 3 characters</span>
+				}
+			</div>
+		}
 	</div>
 
 	<div class="mb-4">
@@ -23,9 +29,13 @@
 			placeholder="Task description" 
 			rows="3"
 		></textarea>
-		<div *ngIf="taskForm.get('description')?.invalid && taskForm.get('description')?.touched" class="error-message">
-			<span *ngIf="taskForm.get('description')?.errors?.['required']">Description is required</span>
-		</div>
+			@if(taskForm.get('description')?.invalid && taskForm.get('description')?.touched) {
+				<div class="error-message">
+					@if(taskForm.get('description')?.errors?.['required']) {
+						<span>Description is required</span>
+					}
+				</div>
+			}
 	</div>
 	
 	<!-- form actions -->

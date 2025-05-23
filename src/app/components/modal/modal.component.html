@@ -1,4 +1,4 @@
-<dialog #modalDialog class="absolute inset-0 z-50 min-w-[50vw] min-h-[40vh] [open]:flex items-center justify-center m-auto bg-neutral-100 p-4 rounded-sm" [attr.open]="isOpen ? '' : null">
+<dialog #modalDialog class="absolute inset-0 z-50 min-w-[50vw] min-h-[30vh] [open]:flex items-center justify-center m-auto bg-neutral-100 p-4 rounded-sm" [attr.open]="isOpen()">
 	<div class="flex justify-end p-4">
 		<button class="button --type-link --type-icon --icon-xmark" (click)="closeModal()">
 			<span class="sr-only">Close</span>
@@ -8,20 +8,20 @@
 
 	<div class="p-4">
 		<div class="mb-4">
-			<h2 class="text-2xl font-bold">{{ title }}</h2>
+			<h2 class="text-2xl font-bold">{{ title() }}</h2>
 		</div>
 
-		@if(message) {
-			<p class="text-sm">{{ message }}</p>
+		@if(message()) {
+			<p class="text-sm">{{ message() }}</p>
 		}
 
 		<ng-content></ng-content>
 	</div>
 
-	@if(showActions) {
+	@if(showActions()) {
 		<div class="flex justify-end gap-4 pt-4 mt-auto">
-			<button class="button --color-secondary" (click)="onCancel()">{{cancelLabel}}</button>
-			<button class="button --color-primary" (click)="onConfirm()">{{confirmLabel}}</button>
+			<button class="button --color-secondary" (click)="onCancel()">{{cancelLabel()}}</button>
+			<button class="button --color-primary" (click)="onConfirm()">{{confirmLabel()}}</button>
 		</div>
 	}
 </dialog>

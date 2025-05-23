@@ -1,24 +1,23 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, HostListener, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { AfterViewInit, Component, ElementRef, HostListener, OnChanges, SimpleChanges, input, output, viewChild } from '@angular/core';
 
 @Component({
 	selector: 'app-modal',
 	standalone: true,
-	imports: [CommonModule],
+	imports: [],
 	templateUrl: './modal.component.html',
 	styleUrl: './modal.component.css'
 })
 export class ModalComponent implements OnChanges, AfterViewInit {
-	@Input() title: string = '';
-	@Input() message: string = '';
-	@Input() isOpen: boolean = false;
-	@Input() showActions: boolean = false;
-	@Input() confirmLabel: string = 'Confirm';
-	@Input() cancelLabel: string = 'Cancel';
-	@Output() close = new EventEmitter<void>();
-	@Output() confirm = new EventEmitter<void>();
-	@Output() cancel = new EventEmitter<void>();
-	@ViewChild('modalDialog') modalDialog!: ElementRef<HTMLDialogElement>;
+	title = input<string>('');
+	message = input<string>('');
+	isOpen = input<boolean>(false);
+	showActions = input<boolean>(false);
+	confirmLabel = input<string>('Confirm');
+	cancelLabel = input<string>('Cancel');
+	close = output<void>();
+	confirm = output<void>();
+	cancel = output<void>();
+	modalDialog = viewChild<ElementRef<HTMLDialogElement>>('modalDialog');
 
 	// Handle Escape key
 	@HostListener('keydown.escape')
@@ -28,28 +27,31 @@ export class ModalComponent implements OnChanges, AfterViewInit {
 
 	ngAfterViewInit() {
 		// Handle initial state after view is initialized
-		if (this.isOpen) {
+		if (this.isOpen()) {
 			this.openModal();
 		}
 
 		// Add click event listener to close on backdrop click
-		this.modalDialog.nativeElement.addEventListener('click', (event) => {
-			const dialogDimensions = this.modalDialog.nativeElement.getBoundingClientRect();
-			if (
-				event.clientX < dialogDimensions.left ||
-				event.clientX > dialogDimensions.right ||
-				event.clientY < dialogDimensions.top ||
-				event.clientY > dialogDimensions.bottom
-			) {
-				this.closeModal();
+		this.modalDialog()?.nativeElement.addEventListener('click', (event: MouseEvent) => {
+			const dialogDimensions = this.modalDialog()?.nativeElement.getBoundingClientRect();
+			if (dialogDimensions) {
+				if (
+					event.clientX < dialogDimensions.left ||
+					event.clientX > dialogDimensions.right ||
+					event.clientY < dialogDimensions.top ||
+					event.clientY > dialogDimensions.bottom
+				) 
+				{
+					this.closeModal();
+				}
 			}
 		});
 	}
 
 	ngOnChanges(changes: SimpleChanges) {
 		// Since ViewChild might not be available immediately, handle it safely
-		if (changes['isOpen'] && this.modalDialog) {
-			if (this.isOpen) {
+		if (changes['isOpen'] && this.modalDialog() !== undefined) {
+			if (this.isOpen()) {
 				this.openModal();
 			} else {
 				this.closeModal();
@@ -58,14 +60,14 @@ export class ModalComponent implements OnChanges, AfterViewInit {
 	}
 
 	openModal() {
-		if (this.modalDialog && !this.modalDialog.nativeElement.open) {
-			this.modalDialog.nativeElement.showModal();
+		if (!this.modalDialog()?.nativeElement.open) {
+			this.modalDialog()?.nativeElement.showModal();
 		}
 	}
 
 	closeModal() {
-		if (this.modalDialog && this.modalDialog.nativeElement.open) {
-			this.modalDialog.nativeElement.close();
+		if (this.modalDialog()?.nativeElement.open) {
+			this.modalDialog()?.nativeElement.close();
 			this.close.emit();
 		}
 	}
